@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nkululeko Martin Makhubo | Software Engineer & Backend Specialist</title>
+    <!-- Premium modern sans-serif typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern CSS Custom Properties for Light and Dark Modes */
+        :root[data-theme="light"] {
+            --accent-primary: #ff6b00;    /* Vibrant Orange */
+            --accent-muted: #fff2e6;      /* Very Light Orange Tint */
+            --bg-main: #ffffff;           /* Crisp White Background */
+            --bg-card: #fafafa;           /* Ultra Light Grey for content sections */
+            --text-dark: #111111;         /* Deep Rich Black for Headlines */
+            --text-muted: #555555;        /* Soft Charcoal for Paragraphs */
+            --border-color: #eaeaea;      /* Subtle layout separators */
+        }
+
+        :root[data-theme="dark"] {
+            --accent-primary: #ff7c1f;    /* Slightly brighter orange for accessibility */
+            --accent-muted: #2a1b10;      /* Dark warm amber tint */
+            --bg-main: #121212;           /* Deep dark background */
+            --bg-card: #1c1c1c;           /* Elevated dark grey card surface */
+            --text-dark: #f5f5f5;         /* Crisp near-white for headlines */
+            --text-muted: #b0b0b0;        /* Muted cool grey for paragraph text */
+            --border-color: #2c2c2c;      /* Dark subtle separators */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Smooth base transition rule across the entire canvas */
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text-dark); 
+            padding: 0 24px; 
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        
+        .wrapper { max-width: 1100px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* Navigation Header & Controls Mapping */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; }
+        .brand-logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; cursor: default; }
+        .brand-logo span { color: var(--accent-primary); }
+        
+        .nav-controls { display: flex; align-items: center; gap: 32px; }
+        nav { display: flex; gap: 32px; }
+        nav a { text-decoration: none; color: var(--text-muted); font-size: 15px; font-weight: 500; transition: color 0.2s ease; padding: 5px 0; position: relative; }
+        nav a:hover, nav a.active { color: var(--text-dark); }
+        nav a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--accent-primary); }
+
+        /* The Animated Theme Toggle Button Element */
+        .theme-toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            font-size: 18px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+        }
+        .theme-toggle-btn:hover {
+            border-color: var(--accent-primary);
+        }
+        /* Triggered dynamically via JS code toggle layer */
+        .theme-toggle-btn.animate {
+            animation: popRotate 0.5s ease;
+        }
+
+        @keyframes popRotate {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        /* Hero Split Component Mapping */
+        .hero-section { display: flex; align-items: center; justify-content: space-between; gap: 60px; padding: 60px 0 100px 0; }
+        .hero-content { flex: 1.2; }
+        .hero-content h2 { font-size: 46px; font-weight: 700; line-height: 1.25; letter-spacing: -1px; margin-bottom: 24px; color: var(--text-dark); }
+        .hero-content h2 span { color: var(--accent-primary); }
+        .hero-content p { font-size: 18px; color: var(--text-muted); line-height: 1.65; max-width: 580px; }
+        .hero-context { margin-top: 32px; font-size: 14px; color: var(--text-muted); font-weight: 500; }
+        .hero-context span { color: var(--text-dark); font-weight: 600; }
+
+        /* The Premium Framing Block */
+        .hero-visual { flex: 0.8; display: flex; justify-content: flex-end; }
+        .frame-container { position: relative; width: 330px; height: 390px; }
+        .offset-accent-card { 
+            position: absolute; top: 16px; left: -16px; width: 100%; height: 100%; 
+            background: var(--accent-muted); border: 2px solid var(--accent-primary); border-radius: 8px; z-index: 1; 
+            transition: background-color 0.4s, border-color 0.4s;
+        }
+        .profile-photo-slot { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; background: var(--bg-card); border-radius: 8px; z-index: 2;
+            border: 1px solid var(--border-color); box-shadow: 0 12px 40px rgba(0,0,0,0.04);
+            transition: border-color 0.4s;
+        }
+
+        /* Dynamic Main Workspace Tabs System */
+        main { padding-bottom: 80px; }
+        .content-block { display: none; animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .content-block.active { display: block; }
+        .content-block h3 { font-size: 24px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.5px; }
+
+        /* Project Cards System */
+        .portfolio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .portfolio-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 32px; border-radius: 8px; transition: all 0.3s ease; text-decoration: none; display: block; }
+        .portfolio-card:hover { transform: translateY(-4px); border-color: var(--accent-primary); background: var(--bg-main); box-shadow: 0 12px 30px rgba(255, 107, 0, 0.04); }
+        .portfolio-card h4 { font-size: 20px; color: var(--text-dark); margin-bottom: 8px; }
+        .portfolio-card p { font-size: 15px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; }
+        .portfolio-card .card-link { color: var(--accent-primary); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 4px; }
+
+        /* Skill Matrix Tag Blocks */
+        .skills-container { display: flex; flex-wrap: wrap; gap: 12px; max-width: 750px; }
+        .skill-tag { padding: 10px 18px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; font-size: 15px; font-weight: 500; color: var(--text-dark); transition: all 0.2s; }
+        .skill-tag:hover { border-color: var(--accent-primary); background: var(--accent-muted); }
+        .skill-tag.specialty { border-color: var(--accent-primary); background: var(--accent-muted); font-weight: 600; }
+
+        .cv-text-block { max-width: 750px; line-height: 1.7; color: var(--text-muted); font-size: 16px; }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 12px 24px;
+            background-color: var(--accent-primary);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Viewport Refactoring rules */
+        @media (max-width: 820px) {
+            header { padding: 30px 0; flex-direction: column; gap: 20px; }
+            .nav-controls { flex-direction: column-reverse; gap: 20px; }
+            .hero-section { flex-direction: column-reverse; text-align: center; gap: 48px; padding: 20px 0 60px 0; }
+            .hero-content p { margin: 0 auto; }
+            .hero-visual { justify-content: center; width: 100%; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            nav { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        
+        <!-- App Header Interface Layout -->
+        <header>
+            <div class="brand-logo">Nkululeko<span>.</span></div>
+            
+            <div class="nav-controls">
+                <!-- Navigation panel anchor tags mapping -->
+                <nav id="nav-container">
+                    <a href="#hero" class="active" onclick="setView('home', this)">Home</a>
+                    <a href="#about" onclick="setView('about', this)">About / CV</a>
+                    <a href="#skills" onclick="setView('skills', this)">Skills</a>
+                    <a href="#projects" onclick="setView('projects', this)">Projects</a>
+                    <a href="#contact" onclick="setView('contact', this)">Contact Me</a>
+                </nav>
+
+                <!-- Interactive Theme Engine Button Shell -->
+                <button class="theme-toggle-btn" id="theme-btn" onclick="toggleThemeEngine()" title="Toggle Dark/Light Mode">🌙</button>
+            </div>
+        </header>
+
+        <!-- Hero Card Panel Layout Block -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>I’m <span>NKULULEKO MARTIN MAKHUBO</span>, a Software Engineer. I enjoy creating robust, secure, and performant backend architectures.</h2>
+                <p>Currently completing my degree in Bachelor of Science in Information Technology, prioritizing structural framework logic, optimization, and complete database integrations over pixel designs.</p>
+                <div class="hero-context">Focusing on <span>C# .NET Ecosystems</span>.</div>
+            </div>
+            <div class="hero-visual">
+                <div class="frame-container">
+                    <div class="offset-accent-card"></div>
+                    <img src="https://github.com/MartyMack.png" alt="NKULULEKO MARTIN MAKHUBO" class="profile-photo-slot">
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Dynamic Output Slots Workspace panel -->
+        <main>
+            
+            <!-- VIEW BLOCK 1: DEFAULT SCREEN -->
+            <div id="home" class="content-block active"></div>
+
+            <!-- VIEW BLOCK 2: THE COMPREHENSIVE TEXT CV RECORD -->
+            <div id="about" class="content-block">
+                <h3>Professional Identity & Background</h3>
+                <div class="cv-text-block">
+                    <p style="margin-bottom: 16px;">
+                        I am a final-year Bachelor of Science in Information Technology student at North-West University, specializing in backend architecture, system design, and database integration within the <strong>C# .NET ecosystem</strong>. My academic focus centers on building secure, high-performance web APIs and scalable data pipelines using <strong>ASP.NET Core</strong>, <strong>Entity Framework</strong>, and <strong>SQL Server</strong>.
+                    </p>
+                    <p>
+                        Beyond individual coursework, I lead backend development for our final-year full-stack group project, managing session authentication, database schemas, and API integration layers. Post-graduation, I aspire to join an engineering team as a Software / Backend Engineer, where I can apply robust object-oriented patterns to solve complex enterprise problems.
+                    </p>
+                    
+                    <!-- Directly opens your PDF in browser if named Nkululeko_Makhubo_CV.pdf inside your project root folder -->
+                    <a href="CVMartinMakhubo.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                        View Full CV (PDF) ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- VIEW BLOCK 3: INTUITION PROFICIENCIES CONTAINER -->
+            <div id="skills" class="content-block">
+                <h3>Technical Proficiencies Matrix</h3>
+                <div class="skills-container">
+                    <span class="skill-tag">ASP.NET Core MVC</span>
+                    <span class="skill-tag">ASP.NET Core Web API</span>
+                    <span class="skill-tag">SQL Server and MySQL</span>
+                    <span class="skill-tag">Structured Git Workflow</span>
+                    <span class="skill-tag">Razor Pages</span>
+                    <span class="skill-tag">HTML5/CSS3</span>
+                    <span class="skill-tag specialty">Specialty: Backend ASP.NET Core with Entity Framework</span>
+                </div>
+            </div>
+
+            <!-- VIEW BLOCK 4: THE INTEGRATED REPOSITORIES GRID -->
+            <div id="projects" class="content-block">
+                <h3>Featured Codebase Repositories</h3>
+                <div class="portfolio-grid">
+                    
+                    <a href="https://github.com/MartyMack/cmpg223project" target="_blank" rel="noopener noreferrer" class="portfolio-card">
+                        <h4>Full-Stack Group Web Application</h4>
+                        <p>Our core capstone application repository emphasizing scalable data logic, session authentication states, and strict object-relational model handling (CMPG 223 Project).</p>
+                        <span class="card-link">View GitHub Repository →</span>
+                    </a>
+
+                    <a href="https://github.com/MartyMack" target="_blank" rel="noopener noreferrer" class="portfolio-card">
+                        <h4>GitHub Profile & Engineering Log</h4>
+                        <p>Explore my main GitHub profile page containing all individual codebases, experimental projects, and current development repositories.</p>
+                        <span class="card-link">View GitHub Profile →</span>
+                    </a>
+                    
+                </div>
+            </div>
+
+            <!-- VIEW BLOCK 5: THE CORE NETWORKING CAPTURE POINT -->
+            <div id="contact" class="content-block">
+                <h3>Let's Connect</h3>
+                <div class="cv-text-block">
+                    <p style="margin-bottom: 20px;">I am actively available for post-graduation opportunities, full-stack development roles, or engineering discussions. Feel free to reach out via any of the professional platforms listed below:</p>
+                    <p style="margin-bottom: 10px;"><strong>Professional Email:</strong> <a href="mailto:35180420@mynwu.ac.za" style="color: var(--accent-primary); text-decoration: none;">35180420@mynwu.ac.za</a></p>
+                    <p style="margin-bottom: 10px;"><strong>LinkedIn Network:</strong> <a href="https://www.linkedin.com/in/nkululeko-martin-makhubo-0ba76b1a1" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none;">linkedin.com/in/nkululeko-martin-makhubo-0ba76b1a1</a></p>
+                    <p style="margin-bottom: 10px;"><strong>Personal Email:</strong> <a href="mailto:nkululeko.makhubo.60@gmail.com" style="color: var(--accent-primary); text-decoration: none;">nkululeko.makhubo.60@gmail.com</a></p>
+                    <p style="margin-bottom: 10px;"><strong>GitHub Engineering Log:</strong> <a href="https://github.com/MartyMack" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none;">github.com/MartyMack</a></p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- UI State Navigation Architecture Scripting Engine Layer -->
+    <script>
+        // Core View Controller Switching Engine Mapping Function
+        function setView(targetId, navLink) {
+            document.querySelectorAll('.content-block').forEach(block => block.classList.remove('active'));
+            document.querySelectorAll('#nav-container a').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(targetId).classList.add('active');
+            navLink.classList.add('active');
+        }
+
+        // Animated Theme State Toggling Engine Logic Module
+        function toggleThemeEngine() {
+            const rootNode = document.documentElement;
+            const btnNode = document.getElementById('theme-btn');
+            const currentThemeSetting = rootNode.getAttribute('data-theme');
+            
+            // Inject the animation tracking frame anchor classes
+            btnNode.classList.add('animate');
+            
+            // Evaluate current state criteria flags
+            if (currentThemeSetting === 'dark') {
+                rootNode.setAttribute('data-theme', 'light');
+                btnNode.textContent = '☀️';
+            } else {
+                rootNode.setAttribute('data-theme', 'dark');
+                btnNode.textContent = '🌙';
+            }
+            
+            // Detach animation helper tracking hooks gracefully upon completion cycle execution points
+            setTimeout(() => {
+                btnNode.classList.remove('animate');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
